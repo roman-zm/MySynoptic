@@ -1,13 +1,17 @@
 package com.example.mysynoptic;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import android.util.Log;
 
 
@@ -86,6 +90,16 @@ public class WeatherService extends Service {
             );
 
             builder.setContentIntent(pendingIntent);
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel("1", "My channel",
+                        NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(channel);
+            }
+
+
 
             return builder.build();
         }
